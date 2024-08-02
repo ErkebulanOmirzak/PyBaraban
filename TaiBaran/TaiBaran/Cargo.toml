@@ -1,0 +1,13 @@
+[package]
+name = "TaiBaran"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gtk4 = "0.9"
+native-dialog = "0.6"
+dirs = "4.0"
+cc = "1.1.7"
+
+[build-dependencies]
+cc = "1.1.7"
