@@ -9,6 +9,7 @@ dependencies = [
  "cc",
  "dirs",
  "gtk4",
+ "libc",
  "native-dialog",
 ]
 

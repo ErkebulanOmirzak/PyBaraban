@@ -1,3 +1,5 @@
+mod ffi; // Подключение модуля ffi
+
 use gtk4::prelude::*;
 use gtk4::{Application, ApplicationWindow, Box, Button, CheckButton, Entry};
 use native_dialog::FileDialog;
@@ -30,7 +32,7 @@ fn build_ui(app: &Application) {
 
     // Кнопка A
     let open_button = Button::with_label("Дифу блядь сюда мне");
-    let file_entry_clone = file_entry.clone();
+    let file_entry_clone = file_entry.clone(); // Создание клона для замыкания
     open_button.connect_clicked(move |_| {
         // диалог для выбора файла
         match FileDialog::new()
@@ -45,8 +47,19 @@ fn build_ui(app: &Application) {
 
     // Кнопка B
     let generate_button = Button::with_label("Высрать");
+    let file_entry_for_generate = file_entry.clone(); // Создание клона для замыкания
     generate_button.connect_clicked(move |_| {
         println!("Торпеда пошла");
+
+        // Пример использования FFI
+        let osufile = file_entry_for_generate.text().to_string(); // Исправлено
+        let osbfile = "output.osb";
+        let resourcefolder = "resources/image";
+        
+        match crate::ffi::generate_storyboard_rust(&osufile, osbfile, resourcefolder) {
+            Ok(_) => println!("Storyboard generated successfully"),
+            Err(e) => eprintln!("Error generating storyboard: {}", e),
+        }
     });
 
     // Галочка

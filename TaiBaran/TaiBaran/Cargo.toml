@@ -8,6 +8,6 @@ gtk4 = "0.9"
 native-dialog = "0.6"
 dirs = "4.0"
 cc = "1.1.7"
-
+libc = "0.2"
 [build-dependencies]
 cc = "1.1.7"
