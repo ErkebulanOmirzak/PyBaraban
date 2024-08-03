@@ -1,7 +1,7 @@
 mod ffi; // Подключение модуля ffi
 
 use gtk4::prelude::*;
-use gtk4::{Application, ApplicationWindow, Box, Button, CheckButton, Entry};
+use gtk4::{Application, ApplicationWindow, Builder, Button, CheckButton, Entry};
 use native_dialog::FileDialog;
 
 fn main() {
@@ -15,26 +15,28 @@ fn main() {
 }
 
 fn build_ui(app: &Application) {
-    // Основное окно
-    let window = ApplicationWindow::builder()
-        .application(app)
-        .title("TaiBaran")
-        .default_width(300)
-        .default_height(200)
-        .build();
+    // Загрузка интерфейса из файла Glade
+    let glade_src = include_str!("ui.glade");
+    let builder = Builder::from_string(glade_src);
 
-    // Основной контейнер
-    let vbox = Box::new(gtk4::Orientation::Vertical, 10);
+    // Основное окно
+    let window: ApplicationWindow = builder
+        .object("main_window")
+        .expect("Не удалось получить main_window");
 
     // Строка для пути к файлу
-    let file_entry = Entry::new();
-    file_entry.set_placeholder_text(Some("маршрут до параши"));
+    let file_entry: Entry = builder
+        .object("file_entry")
+        .expect("Не удалось получить file_entry");
 
     // Кнопка A
-    let open_button = Button::with_label("Дифу блядь сюда мне");
-    let file_entry_clone = file_entry.clone(); // Создание клона для замыкания
+    let open_button: Button = builder
+        .object("open_button")
+        .expect("Не удалось получить open_button");
+
+    let file_entry_clone = file_entry.clone();
     open_button.connect_clicked(move |_| {
-        // диалог для выбора файла
+        // Диалог для выбора файла
         match FileDialog::new()
             .add_filter("osu! Files", &["osu"])
             .show_open_single_file() 
@@ -46,13 +48,20 @@ fn build_ui(app: &Application) {
     });
 
     // Кнопка B
-    let generate_button = Button::with_label("Высрать");
-    let file_entry_for_generate = file_entry.clone(); // Создание клона для замыкания
+    let generate_button: Button = builder
+        .object("generate_button")
+        .expect("Не удалось получить generate_button");
+
+    let file_entry_for_generate = file_entry.clone();
+    let _check_button: CheckButton = builder
+        .object("check_button")
+        .expect("Не удалось получить check_button");
+
     generate_button.connect_clicked(move |_| {
         println!("Торпеда пошла");
 
         // Пример использования FFI
-        let osufile = file_entry_for_generate.text().to_string(); // Исправлено
+        let osufile = file_entry_for_generate.text().to_string();
         let osbfile = "output.osb";
         let resourcefolder = "resources/image";
         
@@ -62,16 +71,7 @@ fn build_ui(app: &Application) {
         }
     });
 
-    // Галочка
-    let check_button = CheckButton::with_label("спидозник ебаный");
-
-    // элементы в контейнере
-    vbox.append(&file_entry);
-    vbox.append(&open_button);
-    vbox.append(&generate_button);
-    vbox.append(&check_button);
-
-    // рожаем контейнер в основное окно
-    window.set_child(Some(&vbox));
+    // Показать окно
+    window.set_application(Some(app));
     window.show();
 }

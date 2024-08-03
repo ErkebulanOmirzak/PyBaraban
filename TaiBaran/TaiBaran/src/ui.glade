@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="4.0"/>
+  <object class="GtkApplicationWindow" id="main_window">
+    <property name="title">TaiBaran</property>
+    <property name="default-width">300</property>
+    <property name="default-height">200</property>
+    <child>
+      <object class="GtkBox" id="vbox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkEntry" id="file_entry">
+            <property name="placeholder-text">маршрут до параши</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="open_button">
+            <property name="label">Дифу блядь сюда мне</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="generate_button">
+            <property name="label">Высрать</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="check_button">
+            <property name="label">спидозник ебаный</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
